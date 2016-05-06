@@ -1,0 +1,38 @@
+#!/bin/bash
+
+
+MONGO_EXEC=/usr/bin/mongod
+PID=/var/run/mongo.pid
+
+
+start() {
+        if start-stop-daemon -S -b -m  -p $PID --exec $MONGO_EXEC; then
+                echo "Service started...."
+        fi
+}
+
+stop() {
+        if start-stop-daemon -K -p $PID ; then
+                echo "Service stopped.."
+        fi
+}
+
+restart() {
+        stop;
+        sleep 3
+        start
+}
+
+
+case $1 in
+ start) start ;
+        ;;
+ stop) stop ;
+        ;;
+  restart)
+        restart;
+        ;;
+   *) echo "Usage $0 start|stop|restart"
+       ;;
+esac
+
