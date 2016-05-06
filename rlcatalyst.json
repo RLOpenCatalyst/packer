@@ -1,41 +1,33 @@
 {
-  "variables": {
-
-   },
   "builders": [
-     {
-      "type": "amazon-ebs",
-      "access_key": "{{user `aws_access_key`}}",
-      "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-east-1",
-      "vpc_id": "vpc-e30aec84",
-      "subnet_id": "subnet-bdec7c97",
-      "source_ami": "ami-fce3c696",
-      "instance_type": "t2.small",
-      "ssh_username": "ubuntu",
-      "ami_name": "RLCatalyst",
-      "ami_block_device_mappings": [
-	{
-		"device_name": "/dev/sda1",
-		"volume_type": "gp2",
-		"volume_size": 20
-	}
-	]
-  }],
+  {
+    "type": "docker",
+    "image": "ubuntu:14.04",
+    "commit": "true",
+    "pull": "true"
+  }
+  ],
   "provisioners": [{
       "type": "file",
-      "source": "/opt/packer/ami/rlcatalyst",
+      "source": "/opt/packer/docker/rlcatalyst",
       "destination": "/tmp/rlcatalyst"
       },
       {
       "type": "file",
-      "source": "/opt/packer/ami/mongo-db",
+      "source": "/opt/packer/docker/mongo-db",
       "destination": "/tmp/mongo-db"
       },
       {
         "type": "shell",
         "script": "rlcatalyst.sh"
       }
-   ]
+   ],
+  "post-processors": [
+        {
+            "force": true,
+            "repository": "mateens001/rlcatalyst",
+            "type": "docker-tag"
+        }
+    ]
 }
 

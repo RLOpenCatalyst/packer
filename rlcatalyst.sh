@@ -8,7 +8,6 @@ mongo_install() {
         sudo chmod +x /etc/init.d/mongo-db
         sudo mkdir -p /data/db
         sudo service mongo-db start
-	sudo update-rc.d mongo-db defaults
 }
 
 nodejs_install() {
@@ -56,12 +55,7 @@ puppet() {
 
 #Install the dependencies
 sudo apt-get update
-sudo apt-get install -y g++ 
-sudo apt-get install -y make 
-sudo apt-get install -y libkrb5-dev 
-sudo apt-get install -y curl 
-sudo apt-get install -y git 
-sudo apt-get install -y wget
+sudo apt-get install -y g++ make libkrb5-dev curl git wget
 sudo curl -L https://www.opscode.com/chef/install.sh | sudo bash
 sudo /opt/chef/embedded/bin/gem install knife-windows
 
